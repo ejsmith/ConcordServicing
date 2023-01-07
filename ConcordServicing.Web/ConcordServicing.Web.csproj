@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>9f2ed432-bd25-45cb-8672-8e9f2c6fb29e</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.6" />
+		<PackageReference Include="WolverineFx.SqlServer" Version="0.9.6" />
+		<PackageReference Include="WolverineFx.RabbitMQ" Version="0.9.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ConcordServicing.CSS\ConcordServicing.CSS.csproj" />
+		<ProjectReference Include="..\ConcordServicing.Data\ConcordServicing.Data.csproj" />
+	</ItemGroup>
+
+</Project>
