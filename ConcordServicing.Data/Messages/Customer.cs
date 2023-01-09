@@ -1,6 +1,6 @@
 ﻿namespace ConcordServicing.Data.Messages;
 
-public class GetCustomerAddress
+public class GetCustomerProfile
 {
     public required string Id { get; set; }
 }

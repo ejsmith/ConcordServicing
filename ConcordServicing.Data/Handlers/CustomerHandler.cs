@@ -15,7 +15,7 @@ public class CustomerHandler
     }
 
     // nice thing about these handlers is that they are very easy to test
-    public async Task<CustomerAddress> Handle(GetCustomerAddress command, ConcordDbContext db)
+    public async Task<CustomerAddress> Handle(GetCustomerProfile command, ConcordDbContext db)
     {
         _logger.LogInformation("Getting customer address {CustomerId}", command.Id);
 

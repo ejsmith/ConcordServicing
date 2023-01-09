@@ -5,11 +5,12 @@ namespace ConcordServicing.CSS.Handlers;
 
 public class CustomerHandler
 {
-    public static void Handle(UpdateCustomerAddress command, ILogger<CustomerHandler> logger)
+    public static void Handle(UpdateCustomerAddress command) //, ILogger<CustomerHandler> logger)
     {
-        logger.LogInformation("Calling CSS to update customer {CustomerId}", command.Id);
+        //logger.LogInformation("Calling CSS to update customer {CustomerId}", command.Id);
         
         // CSS is an external system and is the source of truth for any data writes while we are migrating all of the apps over to SQL Server
+        // We are dual-writing to both systems during transition
         
         // call the CSS action first, if it fails, it will not update SQL Server
         // this can use retry policies to handle transient errors
@@ -21,9 +22,9 @@ public class CustomerHandler
         // TODO: do CSS action to update the address, if it fails, don't continue to the next handler
 
         // emulate a transient error
-        if (Random.Shared.Next(100) < 80)
+        if (Random.Shared.Next(100) > 80)
         {
-            logger.LogError("Error calling CSS to update customer {CustomerId}", command.Id);
+            //logger.LogError("Error calling CSS to update customer {CustomerId}", command.Id);
             throw new ApplicationException("Unable to process CSS action.");
         }
     }

@@ -1,4 +1,5 @@
 ﻿using ConcordServicing.Data;
+using Foundatio.Extensions.Hosting.Startup;
 using Microsoft.EntityFrameworkCore;
 using Oakton.Resources;
 using Wolverine;
@@ -49,4 +50,26 @@ public static class ConfigurationExtensions
 
         return builder;
     }
+
+    public static WebApplicationBuilder AddSampleDataStartupAction(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddStartupAction("ConfigureIndexes", async sp =>
+        {
+            // add some sample data if there is none
+            var db = sp.GetRequiredService<ConcordDbContext>();
+            if (await db.Customers.FindAsync("123") == null)
+            {
+                db.Customers.Add(new Data.Models.Customer
+                {
+                    Id = "123",
+                    Address = "123 Main St"
+                });
+
+                await db.SaveChangesAsync();
+            }
+        });
+
+        return builder;
+    }
+
 }
