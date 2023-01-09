@@ -3,11 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Web", "ConcordServicing.Web\ConcordServicing.Web.csproj", "{04FB241F-18CE-496B-A8BA-9A0A73204E0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Web", "src\ConcordServicing.Web\ConcordServicing.Web.csproj", "{04FB241F-18CE-496B-A8BA-9A0A73204E0F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.CSS", "ConcordServicing.CSS\ConcordServicing.CSS.csproj", "{6F6EF074-C496-4A08-875F-680CBD63F843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.CSS", "src\ConcordServicing.CSS\ConcordServicing.CSS.csproj", "{6F6EF074-C496-4A08-875F-680CBD63F843}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Data", "ConcordServicing.Data\ConcordServicing.Data.csproj", "{ABA3ED32-E658-4AC0-82A0-2780A5E745D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Data", "src\ConcordServicing.Data\ConcordServicing.Data.csproj", "{ABA3ED32-E658-4AC0-82A0-2780A5E745D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Tests", "tests\ConcordServicing.Tests\ConcordServicing.Tests.csproj", "{E6C5ACCD-0CC7-4EE9-84E4-6222351DAB17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9B645F3-D158-47D6-94C6-453F1991234F}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +34,10 @@ Global
 		{ABA3ED32-E658-4AC0-82A0-2780A5E745D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABA3ED32-E658-4AC0-82A0-2780A5E745D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABA3ED32-E658-4AC0-82A0-2780A5E745D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6C5ACCD-0CC7-4EE9-84E4-6222351DAB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C5ACCD-0CC7-4EE9-84E4-6222351DAB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C5ACCD-0CC7-4EE9-84E4-6222351DAB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C5ACCD-0CC7-4EE9-84E4-6222351DAB17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

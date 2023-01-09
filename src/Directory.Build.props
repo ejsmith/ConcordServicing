@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <PropertyGroup Label="Version">
+    <Version Condition="'$(VersionSuffix)' == '' OR '$(VersionSuffix)' == '0.0.0'">$([System.DateTime]::Now.ToString(yyyy.MMdd.HHmm))</Version>
+    <Version Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <WarningsAsErrors>true</WarningsAsErrors>
+    <LangVersion>latest</LangVersion>
+
+    <ReferenceWolverineSource Condition="$(SolutionName.Contains('Wolverine'))">true</ReferenceWolverineSource>
+    <WolverineProjectsDir>$(ProjectDir)..\..\..\..\Other\wolverine\</WolverineProjectsDir>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="AsyncFixer" Version="1.6.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

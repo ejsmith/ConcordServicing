@@ -21,9 +21,15 @@
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-		<PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.6" />
-		<PackageReference Include="WolverineFx.SqlServer" Version="0.9.6" />
-		<PackageReference Include="WolverineFx.RabbitMQ" Version="0.9.6" />
+
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <ProjectReference Include="$(WolverineProjectsDir)src\Persistence\Wolverine.EntityFrameworkCore\Wolverine.EntityFrameworkCore.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
+
+    <PackageReference Include="WolverineFx.SqlServer" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <ProjectReference Include="$(WolverineProjectsDir)src\Persistence\Wolverine.SqlServer\Wolverine.SqlServer.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
+
+    <PackageReference Include="WolverineFx.RabbitMQ" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <ProjectReference Include="$(WolverineProjectsDir)src\Transports\Wolverine.RabbitMQ\Wolverine.RabbitMQ.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
 	</ItemGroup>
 
 	<ItemGroup>
