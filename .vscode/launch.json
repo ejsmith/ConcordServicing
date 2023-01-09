@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "${defaultBuildTask}",
+      "program": "${workspaceRoot}/src/ConcordServicing.Web/bin/Debug/net7.0/ConcordServicing.Web.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/src/ConcordServicing.Web",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "launchBrowser": {
+          "enabled": true,
+          "args": "${auto-detect-url}",
+          "windows": {
+              "command": "cmd.exe",
+              "args": "/C start ${auto-detect-url}"
+          },
+          "osx": {
+              "command": "open"
+          },
+          "linux": {
+              "command": "xdg-open"
+          }
+      },
+      "env": {
+          "AppMode": "Development"
+      }
+    }
+  ]
+}

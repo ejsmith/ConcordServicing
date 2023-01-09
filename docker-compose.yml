@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1434:1433 # login with sa:P@55w0rd
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=P@55w0rd"
+      - "MSSQL_PID=Developer"
+    volumes:
+       - sqldata:/var/opt/mssql
+
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    ports:
+      - 5672:5672
+      - 8080:15672 # management ui - login with guest:guest
+
+volumes:
+  sqldata:
+    driver: local

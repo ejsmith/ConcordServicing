@@ -1,0 +1,15 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true
+    },
+    "omnisharp.projectLoadTimeout": 500,
+    "cSpell.words": [
+      "Xunit"
+    ],
+    "msbuildProjectTools.nuget.includePreRelease": true
+  }

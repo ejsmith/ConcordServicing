@@ -1,0 +1,12 @@
+@apiRootUrl = https://localhost:7049
+@apiUrl = {{apiRootUrl}}/api
+
+### get ready
+
+GET {{apiRootUrl}}/ready
+
+### get health
+
+GET {{apiRootUrl}}/health
+
+### Add more API requests

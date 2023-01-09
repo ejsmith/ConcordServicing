@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "true"
+    }
+  },
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/ConcordServicing.sln",
+        "/p:GenerateFullPaths=true"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "panel": "dedicated"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "test",
+      "command": "dotnet",
+      "group": "test",
+      "args": [
+        "test",
+        "${workspaceFolder}/tests/ConcordServicing.Tests/ConcordServicing.Tests.csproj",
+        "/p:GenerateFullPaths=true"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "docker: run services",
+      "command": "docker compose up",
+      "type": "shell",
+      "isBackground": true,
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
