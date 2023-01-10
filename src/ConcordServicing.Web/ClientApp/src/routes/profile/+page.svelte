@@ -14,7 +14,7 @@
 	});
 
 	async function updateAddress() {
-		await fetch(`/api/customer/address`, {
+		const res = await fetch(`/api/customer/address`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -25,7 +25,7 @@
 			})
 		});
 
-		await getCustomer();
+		data = await res.json();
 	}
 
 	async function getCustomer() {

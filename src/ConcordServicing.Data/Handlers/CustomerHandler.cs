@@ -15,15 +15,15 @@ public class CustomerHandler
     }
 
     // nice thing about these handlers is that they are very easy to test
-    public async Task<CustomerAddress> Handle(GetCustomerProfile command, ConcordDbContext db)
+    public async Task<Customer> Handle(GetCustomer command, ConcordDbContext db)
     {
         _logger.LogInformation("Getting customer address {CustomerId}", command.Id);
 
         var customer = await db.Customers.FindAsync(command.Id);
         if (customer == null)
-            return CustomerAddress.NotFound;
+            return Customer.NotFound;
 
-        return new CustomerAddress
+        return new Customer
         {
             Id = customer.Id,
             Address = customer.Address
@@ -32,7 +32,7 @@ public class CustomerHandler
 
     // transactional means that it will only send the customer updated message if the SQL Server update succeeds
     [Transactional]
-    public async Task<CustomerAddress> Handle(UpdateCustomerAddress command, ConcordDbContext db, IMessageContext context)
+    public async Task<Customer> Handle(UpdateCustomerAddress command, ConcordDbContext db, IMessageContext context)
     {
         _logger.LogInformation("Updating customer address in SQL {CustomerId}", command.Id);
 
@@ -42,7 +42,7 @@ public class CustomerHandler
 
         var customer = await db.Customers.FindAsync(command.Id);
         if (customer == null)
-            return CustomerAddress.NotFound;
+            return Customer.NotFound;
 
         customer.Address = command.Address;
 
@@ -52,7 +52,9 @@ public class CustomerHandler
             Address = customer.Address
         });
 
-        return new CustomerAddress
+        await db.SaveChangesAsync();
+
+        return new Customer
         {
             Id = customer.Id,
             Address = customer.Address

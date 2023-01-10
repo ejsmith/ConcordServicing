@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -21,6 +21,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="MinimalApis.Extensions" Version="0.10.1" />
+    <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="10.0.1" />
 
     <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
     <ProjectReference Include="$(WolverineProjectsDir)src\Persistence\Wolverine.EntityFrameworkCore\Wolverine.EntityFrameworkCore.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />

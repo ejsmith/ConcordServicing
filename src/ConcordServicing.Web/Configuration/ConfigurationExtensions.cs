@@ -1,9 +1,12 @@
 ﻿using ConcordServicing.Data;
 using Foundatio.Extensions.Hosting.Startup;
+using JasperFx.Core;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Oakton.Resources;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
+using Wolverine.ErrorHandling;
 using Wolverine.SqlServer;
 
 namespace ConcordServicing.Web.Configuration;
@@ -46,6 +49,9 @@ public static class ConfigurationExtensions
 
                  x.IncludeAssembly(typeof(Data.Handlers.CustomerHandler).Assembly);
              });
+
+            opts.Handlers.OnException<ApplicationException>()
+                .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
         }).UseResourceSetupOnStartup(StartupAction.ResetState);
 
         return builder;

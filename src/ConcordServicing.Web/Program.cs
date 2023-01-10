@@ -19,13 +19,10 @@ builder.AddSampleDataStartupAction();
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-    app.UseHsts();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseWaitForStartupActionsBeforeServingRequests();
 
