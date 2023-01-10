@@ -20,9 +20,9 @@ public class CustomerAddressUpdated
 
 public class Customer
 {
-    public bool Success { get; private set; } = true;
+    public bool Found { get; private set; } = true;
     public required string Id { get; set; }
     public required string Address { get; set; }
 
-    public static Customer NotFound => new() { Success = false, Id = String.Empty, Address = String.Empty };
+    public static Customer NotFound => new() { Found = false, Id = String.Empty, Address = String.Empty };
 }

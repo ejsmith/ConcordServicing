@@ -1,7 +1,6 @@
 ﻿using ConcordServicing.Data;
 using Foundatio.Extensions.Hosting.Startup;
 using JasperFx.Core;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Oakton.Resources;
 using Wolverine;
@@ -41,7 +40,10 @@ public static class ConfigurationExtensions
                  opts.UseEntityFrameworkCoreTransactions();
              }
 
-             opts.Handlers.Discovery(x =>
+            opts.Handlers.OnException<ApplicationException>()
+                .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
+
+            opts.Handlers.Discovery(x =>
              {
                  // turn CSS handlers off in dev mode
                  //if (!builder.Environment.IsDevelopment())
@@ -49,9 +51,6 @@ public static class ConfigurationExtensions
 
                  x.IncludeAssembly(typeof(Data.Handlers.CustomerHandler).Assembly);
              });
-
-            opts.Handlers.OnException<ApplicationException>()
-                .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
         }).UseResourceSetupOnStartup(StartupAction.ResetState);
 
         return builder;
@@ -63,6 +62,7 @@ public static class ConfigurationExtensions
         {
             // add some sample data if there is none
             var db = sp.GetRequiredService<ConcordDbContext>();
+            
             if (await db.Customers.FindAsync("123") == null)
             {
                 db.Customers.Add(new Data.Models.Customer

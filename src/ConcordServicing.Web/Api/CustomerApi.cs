@@ -21,20 +21,21 @@ public static class CustomerApi
 
     public static async Task<Results<NotFound, Ok<Customer>>> GetCustomer(IMessageBus bus)
     {
-        var address = await bus.InvokeAsync<Customer>(new GetCustomer { Id = "123" });
-        if (address.Success == false)
+        var customer = await bus.InvokeAsync<Customer>(new GetCustomer { Id = "123" });
+        
+        if (!customer.Found)
             return TypedResults.NotFound();
 
-        return TypedResults.Ok(address);
+        return TypedResults.Ok(customer);
     }
 
     public static async Task<Results<NotFound, Ok<Customer>>> UpdateAddress(UpdateCustomerAddress cmd, IMessageBus bus)
     {
-        var address = await bus.InvokeAsync<Customer>(cmd);
+        var customer = await bus.InvokeAsync<Customer>(cmd);
 
-        if (address.Success == false)
+        if (!customer.Found)
             return TypedResults.NotFound();
 
-        return TypedResults.Ok(address);
+        return TypedResults.Ok(customer);
     }
 }
