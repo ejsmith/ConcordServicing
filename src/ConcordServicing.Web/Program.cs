@@ -19,7 +19,7 @@ builder.AddSampleDataStartupAction();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(o => o.InjectStylesheet("/swagger/docs.css"));
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

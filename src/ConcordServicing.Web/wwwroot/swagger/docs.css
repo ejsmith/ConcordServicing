@@ -1,0 +1,19 @@
+﻿.topbar-wrapper img {
+    content: url('/swagger/logo.png');
+}
+
+.topbar-wrapper .link:after {
+    color: #fff;
+    visibility: visible;
+    display: block;
+    position: absolute;
+    padding: 15px;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+    border-color: #ef3f1c;
+}
+
+.swagger-ui .info .title small:last-child {
+    background-color: #ef3f1c !important;
+}
