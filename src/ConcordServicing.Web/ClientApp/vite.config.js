@@ -63,7 +63,7 @@ function getTarget() {
 		? `https://localhost:${process.env.ASPNETCORE_HTTPS_PORT}`
 		: process.env.ASPNETCORE_URLS
 			? process.env.ASPNETCORE_URLS.split(';')[0]
-			: 'http://localhost:40457'
+			: 'http://localhost:7049'
 }
 
 // target taken from src/setupProxy.js in ASP.NET React template
@@ -72,7 +72,7 @@ function getWsTarget() {
 		? `wss://localhost:${process.env.ASPNETCORE_HTTPS_PORT}`
 		: process.env.ASPNETCORE_URLS
 			? process.env.ASPNETCORE_URLS.split(';')[0]
-			: 'ws://localhost:40457';
+			: 'ws://localhost:7049';
 
     return target.replace('https://', 'wss://').replace('http://', 'ws://');
 }

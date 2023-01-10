@@ -9,6 +9,7 @@
 
 	let searchValue = '';
     let lastEvent = '';
+    let error = '';
 
 	search.subscribe(async (value) => {
 		searchValue = value;
@@ -30,12 +31,26 @@
 			})
 		});
 
-		data = await res.json();
+        if (res.ok)
+		    data = await res.json();
+        else
+            error = new Date().toLocaleString('en-US');
 	}
 
 	async function getCustomer() {
 		const res = await fetch(`/api/customer`);
 		data = await res.json();
+	}
+
+	async function throwError() {
+		const res = await fetch(`/api/exception`);
+
+        if (res.ok)
+		    data = await res.json();
+        else {
+            let problemDetails = await res.json();
+            error = problemDetails.title;
+        }
 	}
 
 	onMount(async () => {
@@ -52,9 +67,12 @@
 
 <form>
   <div>Event time: {lastEvent}</div>
+  <div>Error: {error}</div>
   <div class="form-group">
     <label for="inputAddress">Address</label>
     <input type="text" class="form-control" bind:value={data.address}>
   </div>
 	<button type="button" class="btn btn-outline-secondary btn-sm" on:click={() => updateAddress()}>Update Address</button>
+	<button type="button" class="btn btn-outline-secondary btn-sm" on:click={() => throwError()}>Throw Error</button>
+
 </form>

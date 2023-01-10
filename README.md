@@ -28,6 +28,9 @@ How to run entire application backend and frontend:
 - [x] EF Core persistence
 - [x] Editorconfig for ensuring code consistency
 - [x] Dockerfile for building docker image
+- [x] API problem details standard error handling response
+- [x] Health checks
+- [ ] OpenTelemetry logs, metrics, traces
 - [ ] Integration tests for talking to the API
   - [ ] Ability to inspect messages
 - [ ] Authentication
