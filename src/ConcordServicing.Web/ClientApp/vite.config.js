@@ -20,6 +20,13 @@ export default defineConfig({
 				rewrite: (path) => path.replace(/^\/api/, '/api'),
 				target: getTarget()
 			},
+            '/api/events': {
+				changeOrigin: true,
+                secure: false,
+				rewrite: (path) => path.replace(/^\/api/, '/api'),
+                target: getWsTarget(),
+                ws: true,
+              },
 			'/swagger': {
 				changeOrigin: true,
 				secure: false,
@@ -57,6 +64,17 @@ function getTarget() {
 		: process.env.ASPNETCORE_URLS
 			? process.env.ASPNETCORE_URLS.split(';')[0]
 			: 'http://localhost:40457'
+}
+
+// target taken from src/setupProxy.js in ASP.NET React template
+function getWsTarget() {
+	var target = process.env.ASPNETCORE_HTTPS_PORT
+		? `wss://localhost:${process.env.ASPNETCORE_HTTPS_PORT}`
+		: process.env.ASPNETCORE_URLS
+			? process.env.ASPNETCORE_URLS.split(';')[0]
+			: 'ws://localhost:40457';
+
+    return target.replace('https://', 'wss://').replace('http://', 'ws://');
 }
 
 /** Function taken from aspnetcore-https.js in ASP.NET React template */

@@ -24,13 +24,13 @@
 		<PackageReference Include="MinimalApis.Extensions" Version="0.10.1" />
     <PackageReference Include="Lamar.Microsoft.DependencyInjection" Version="10.0.1" />
 
-    <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="0.9.7" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
     <ProjectReference Include="$(WolverineProjectsDir)src\Persistence\Wolverine.EntityFrameworkCore\Wolverine.EntityFrameworkCore.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
 
-    <PackageReference Include="WolverineFx.SqlServer" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <PackageReference Include="WolverineFx.SqlServer" Version="0.9.7" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
     <ProjectReference Include="$(WolverineProjectsDir)src\Persistence\Wolverine.SqlServer\Wolverine.SqlServer.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
 
-    <PackageReference Include="WolverineFx.RabbitMQ" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <PackageReference Include="WolverineFx.RabbitMQ" Version="0.9.7" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
     <ProjectReference Include="$(WolverineProjectsDir)src\Transports\Wolverine.RabbitMQ\Wolverine.RabbitMQ.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
 	</ItemGroup>
 

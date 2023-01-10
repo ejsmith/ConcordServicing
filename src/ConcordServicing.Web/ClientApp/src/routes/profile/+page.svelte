@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { search } from '$lib/stores/stores.js';
 
 	let data = {
@@ -8,10 +8,15 @@
 	};
 
 	let searchValue = '';
+    let lastEvent = '';
 
 	search.subscribe(async (value) => {
 		searchValue = value;
 	});
+
+    function onCustomerAddressUpdated(e) {
+        lastEvent = new Date().toLocaleString('en-US');
+    }
 
 	async function updateAddress() {
 		const res = await fetch(`/api/customer/address`, {
@@ -35,12 +40,18 @@
 
 	onMount(async () => {
 		await getCustomer();
-	});
+        document.addEventListener('ConcordServicing.Data.Messages.CustomerAddressUpdated', (e) => onCustomerAddressUpdated(e.detail));
+
+        return () => {
+            document.removeEventListener("ConcordServicing.Data.Messages.CustomerAddressUpdated", (e) => onCustomerAddressUpdated(e.detail));
+        }
+    });
 </script>
 
 <h5>Profile</h5>
 
 <form>
+  <div>Event time: {lastEvent}</div>
   <div class="form-group">
     <label for="inputAddress">Address</label>
     <input type="text" class="form-control" bind:value={data.address}>

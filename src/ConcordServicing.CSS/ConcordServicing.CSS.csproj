@@ -9,7 +9,7 @@
   <ItemGroup>
 	  <ProjectReference Include="..\ConcordServicing.Data\ConcordServicing.Data.csproj" />
 
-    <PackageReference Include="WolverineFx" Version="0.9.6" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
+    <PackageReference Include="WolverineFx" Version="0.9.7" Condition="'$(ReferenceWolverineSource)' == '' OR '$(ReferenceWolverineSource)' == 'false'" />
     <ProjectReference Include="$(WolverineProjectsDir)src\Wolverine\Wolverine.csproj" Condition="'$(ReferenceWolverineSource)' == 'true'" />
   </ItemGroup>
 

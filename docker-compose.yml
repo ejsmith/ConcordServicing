@@ -19,6 +19,12 @@ services:
       - 5672:5672
       - 8080:15672 # management ui - login with guest:guest
 
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - 6379:6379
+    mem_limit: 50MB
+
 volumes:
   sqldata:
     driver: local
