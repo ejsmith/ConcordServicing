@@ -31,7 +31,7 @@ public class CustomerHandler
     }
 
     // transactional means that it will only send the customer updated message if the SQL Server update succeeds
-    [Transactional]
+    //[Transactional]
     public async Task<Customer> Handle(UpdateCustomerAddress command, ConcordDbContext db, IMessageContext context)
     {
         _logger.LogInformation("Updating customer address in SQL {CustomerId}", command.Id);

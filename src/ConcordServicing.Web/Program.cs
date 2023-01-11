@@ -2,6 +2,8 @@ using ConcordServicing.Data;
 using ConcordServicing.Web.Api;
 using ConcordServicing.Web.Configuration;
 using Foundatio.Extensions.Hosting.Startup;
+using Oakton;
+using OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,8 @@ builder.Services.AddHealthChecks().AddDbContextCheck<ConcordDbContext>(); ;
 
 builder.UseConcordWolverine();
 builder.AddConcordDbContext();
-builder.AddSampleDataStartupAction();
+builder.AddOpenTelemetry();
+builder.AddConfigureDatabaseStartupAction();
 
 var app = builder.Build();
 
@@ -41,4 +44,4 @@ app.MapHub<ClientAppEventsHub>("/api/events");
 app.MapHealthChecks("/healthz");
 app.MapFallbackToFile("index.html");
 
-app.Run();
+await app.RunOaktonCommands(args);

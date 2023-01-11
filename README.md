@@ -30,7 +30,7 @@ How to run entire application backend and frontend:
 - [x] Dockerfile for building docker image
 - [x] API problem details standard error handling response
 - [x] Health checks
-- [ ] OpenTelemetry logs, metrics, traces
+- [x] OpenTelemetry logs, metrics, traces
 - [ ] Integration tests for talking to the API
   - [ ] Ability to inspect messages
 - [ ] Authentication
@@ -43,7 +43,7 @@ How to run entire application backend and frontend:
 - [x] Sample data created locally when no data exists
 - [ ] Service bus pattern for handling messages out of process
   - [ ] Queue job handling
-  - [ ] Ability to run in process locally
+  - [ ] Ability to run queues in process locally
   - [ ] Persisted to SQL Server for durability
   - [ ] Can scale out to multiple app instances while running in proc
   - [ ] Can be run out of process and be scaled separately

@@ -2,6 +2,7 @@
 using Foundatio.Extensions.Hosting.Startup;
 using JasperFx.Core;
 using Microsoft.EntityFrameworkCore;
+using Oakton;
 using Oakton.Resources;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
@@ -16,14 +17,13 @@ public static class ConfigurationExtensions
     {
         var connectionString = builder.Configuration.GetConnectionString("SqlServer");
 
-        builder.Services.AddDbContext<ConcordDbContext>(x =>
+        builder.Services.AddDbContextWithWolverineIntegration<ConcordDbContext>(x =>
             {
                 if (connectionString != null)
-                    x.UseSqlServer(connectionString);
+                    x.UseSqlServer(connectionString, o => o.MigrationsAssembly("ConcordServicing.Web"));
                 else
                     x.UseInMemoryDatabase("Concord");
-            },
-            optionsLifetime: ServiceLifetime.Singleton);
+            });
 
         return builder;
     }
@@ -32,14 +32,18 @@ public static class ConfigurationExtensions
     {
         var connectionString = builder.Configuration.GetConnectionString("SqlServer");
 
+        builder.Host.ApplyOaktonExtensions();
+
         builder.Host.UseWolverine(opts =>
         {
-             if (connectionString != null)
-             {
-                 opts.PersistMessagesWithSqlServer(connectionString);
-                 opts.UseEntityFrameworkCoreTransactions();
-             }
-
+            if (connectionString != null)
+            {
+                opts.PersistMessagesWithSqlServer(connectionString);
+                opts.UseEntityFrameworkCoreTransactions();
+            }
+            
+            opts.Policies.UseDurableLocalQueues();
+            
             opts.Handlers.OnException<ApplicationException>()
                 .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
 
@@ -51,18 +55,30 @@ public static class ConfigurationExtensions
 
                  x.IncludeAssembly(typeof(Data.Handlers.CustomerHandler).Assembly);
              });
-        }).UseResourceSetupOnStartup(StartupAction.ResetState);
-
+        });
+        
+        builder.Host.UseResourceSetupOnStartup();
+        
         return builder;
     }
 
-    public static WebApplicationBuilder AddSampleDataStartupAction(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddConfigureDatabaseStartupAction(this WebApplicationBuilder builder)
     {
-        builder.Services.AddStartupAction("ConfigureIndexes", async sp =>
+        var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+        var isDevelopment = builder.Environment.IsDevelopment();
+        
+        builder.Services.AddStartupAction("ConfigureDatabase", async sp =>
         {
+            // ensure the database is created and any migrations applied
+            if (connectionString != null && isDevelopment)
+                await sp.GetRequiredService<ConcordDbContext>().Database.MigrateAsync();
+
+            if (!isDevelopment)
+                return;
+            
             // add some sample data if there is none
             var db = sp.GetRequiredService<ConcordDbContext>();
-            
+
             if (await db.Customers.FindAsync("123") == null)
             {
                 db.Customers.Add(new Data.Models.Customer
