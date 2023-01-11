@@ -12,9 +12,11 @@
 	}
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/">Concord</a>
+		<a class="navbar-brand" href="/">
+            <img src="logo.png" alt="Concord Servicing" width="150" />
+        </a>
 		<button
 			class="navbar-toggler"
 			type="button"

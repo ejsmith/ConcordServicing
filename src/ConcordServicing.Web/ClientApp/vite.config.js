@@ -19,14 +19,20 @@ export default defineConfig({
 				secure: false,
 				rewrite: (path) => path.replace(/^\/api/, '/api'),
 				target: getTarget()
-			},
+            },
+            '/metrics': {
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/metrics/, '/metrics'),
+                target: getTarget()
+            },
             '/api/events': {
 				changeOrigin: true,
                 secure: false,
 				rewrite: (path) => path.replace(/^\/api/, '/api'),
                 target: getWsTarget(),
                 ws: true,
-              },
+            },
 			'/swagger': {
 				changeOrigin: true,
 				secure: false,

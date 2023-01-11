@@ -42,6 +42,8 @@ app.MapGet("/api/exception", () => { throw new InvalidOperationException("Sample
 app.MapHub<ClientAppEventsHub>("/api/events");
 
 app.MapHealthChecks("/healthz");
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
 app.MapFallbackToFile("index.html");
 
 await app.RunOaktonCommands(args);
