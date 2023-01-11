@@ -31,6 +31,7 @@ How to run entire application backend and frontend:
 - [x] API problem details standard error handling response
 - [x] Health checks
 - [x] OpenTelemetry logs, metrics, traces
+  - [x] OpenTelemetry Prometheus metrics scraping endpoint
 - [ ] Integration tests for talking to the API
   - [ ] Ability to inspect messages
 - [ ] Authentication
