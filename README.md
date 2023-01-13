@@ -26,6 +26,7 @@ How to run entire application backend and frontend:
 - [x] Docker compose for service dependencies (SQL Server, Redis, RabbitMQ)
 - [ ] Redis for caching
 - [x] EF Core persistence
+  - [x] Create database automatically
   - [ ] Reverse engineer phoenix schema
 - [x] Code style rules to ensure consistency
   - [x] Editorconfig
