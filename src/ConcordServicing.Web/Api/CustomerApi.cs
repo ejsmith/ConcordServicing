@@ -10,26 +10,26 @@ public static class CustomerApi
     {
         var customer = app.MapGroup("/api/customer");
 
-        customer.MapGet("/", GetCustomer)
+        customer.MapGet("/", GetCustomerAsync)
             .WithOpenApi(o => new(o) { Summary = "Get customer" });
-        
-        customer.MapPost("/address", UpdateAddress)
+
+        customer.MapPost("/address", UpdateAddressAsync)
             .WithOpenApi(o => new(o) { Summary = "Update customer address" });
 
         customer.WithParameterValidation();
     }
 
-    public static async Task<Results<NotFound, Ok<Customer>>> GetCustomer(IMessageBus bus)
+    public static async Task<Results<NotFound, Ok<Customer>>> GetCustomerAsync(IMessageBus bus)
     {
         var customer = await bus.InvokeAsync<Customer>(new GetCustomer { Id = "123" });
-        
+
         if (!customer.Found)
             return TypedResults.NotFound();
 
         return TypedResults.Ok(customer);
     }
 
-    public static async Task<Results<NotFound, Ok<Customer>>> UpdateAddress(UpdateCustomerAddress cmd, IMessageBus bus)
+    public static async Task<Results<NotFound, Ok<Customer>>> UpdateAddressAsync(UpdateCustomerAddress cmd, IMessageBus bus)
     {
         var customer = await bus.InvokeAsync<Customer>(cmd);
 

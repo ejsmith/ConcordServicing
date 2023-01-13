@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics.Tracing;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Logs;
+using System.Reflection;
+using Foundatio.Extensions.Hosting.Startup;
 using OpenTelemetry.Extensions.Hosting.Implementation;
 using OpenTelemetry.Internal;
-using Foundatio.Extensions.Hosting.Startup;
-using System.Reflection;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace OpenTelemetry;
 
@@ -37,7 +37,8 @@ public static class OpenTelemetryExtensions
         services.AddSingleton(config);
         services.AddHostedService(sp => new SelfDiagnosticsLoggingHostedService(sp.GetRequiredService<ILoggerFactory>(), config.Debug ? EventLevel.Verbose : null));
 
-        services.AddOpenTelemetry().WithMetrics(b => {
+        services.AddOpenTelemetry().WithMetrics(b =>
+        {
             b.SetResourceBuilder(resourceBuilder);
 
             b.AddHttpClientInstrumentation();
@@ -46,7 +47,8 @@ public static class OpenTelemetryExtensions
             b.AddRuntimeInstrumentation();
 
             if (config.Console)
-                b.AddConsoleExporter((exporterOptions, metricReaderOptions) => {
+                b.AddConsoleExporter((exporterOptions, metricReaderOptions) =>
+                {
                     // The ConsoleMetricExporter defaults to a manual collect cycle.
                     // This configuration causes metrics to be exported to stdout on a 10s interval.
                     metricReaderOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 10000;
@@ -55,7 +57,8 @@ public static class OpenTelemetryExtensions
             b.AddPrometheusExporter();
 
             if (!String.IsNullOrEmpty(config.Endpoint))
-                b.AddOtlpExporter((c, o) => {
+                b.AddOtlpExporter((c, o) =>
+                {
                     // needed for newrelic compatibility until they support cumulative
                     o.TemporalityPreference = MetricReaderTemporalityPreference.Delta;
 
@@ -67,17 +70,21 @@ public static class OpenTelemetryExtensions
         }).StartWithHost();
 
         if (config.EnableTracing)
-            services.AddOpenTelemetry().WithTracing(b => {
+            services.AddOpenTelemetry().WithTracing(b =>
+            {
                 b.SetResourceBuilder(resourceBuilder);
 
-                b.AddAspNetCoreInstrumentation(o => {
-                    o.Filter = context => {
+                b.AddAspNetCoreInstrumentation(o =>
+                {
+                    o.Filter = context =>
+                    {
                         return !context.Request.Headers.UserAgent.ToString().Contains("HealthChecker");
                     };
                 });
 
                 b.AddHttpClientInstrumentation();
-                b.AddSqlClientInstrumentation(o => {
+                b.AddSqlClientInstrumentation(o =>
+                {
                     o.EnableConnectionLevelAttributes = true;
                     o.RecordException = true;
                     o.SetDbStatementForText = true;
@@ -87,7 +94,8 @@ public static class OpenTelemetryExtensions
                 b.AddSource("Wolverine");
 
                 if (config.EnableRedis)
-                    b.AddRedisInstrumentation(null, c => {
+                    b.AddRedisInstrumentation(null, c =>
+                    {
                         c.EnrichActivityWithTimingEvents = false;
                         c.SetVerboseDatabaseStatements = config.FullDetails;
                     });
@@ -102,7 +110,8 @@ public static class OpenTelemetryExtensions
                     if (config.MinDurationMs > 0)
                     {
                         // filter out insignificant activities
-                        b.AddFilteredOtlpExporter(c => {
+                        b.AddFilteredOtlpExporter(c =>
+                        {
                             if (!String.IsNullOrEmpty(config.Endpoint))
                                 c.Endpoint = new Uri(config.Endpoint);
                             if (!String.IsNullOrEmpty(config.ApiKey))
@@ -113,7 +122,8 @@ public static class OpenTelemetryExtensions
                     }
                     else
                     {
-                        b.AddOtlpExporter(c => {
+                        b.AddOtlpExporter(c =>
+                        {
                             if (!String.IsNullOrEmpty(config.Endpoint))
                                 c.Endpoint = new Uri(config.Endpoint);
                             if (!String.IsNullOrEmpty(config.ApiKey))
@@ -122,7 +132,7 @@ public static class OpenTelemetryExtensions
                     }
                 }
             });
-        
+
         if (config.EnableLogs)
         {
             builder.Logging.AddOpenTelemetry(o =>
@@ -137,7 +147,8 @@ public static class OpenTelemetryExtensions
 
                 if (!String.IsNullOrEmpty(config.Endpoint))
                 {
-                    o.AddOtlpExporter(c => {
+                    o.AddOtlpExporter(c =>
+                    {
                         if (!String.IsNullOrEmpty(config.Endpoint))
                             c.Endpoint = new Uri(config.Endpoint);
                         if (!String.IsNullOrEmpty(config.ApiKey))

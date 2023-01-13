@@ -26,12 +26,15 @@ How to run entire application backend and frontend:
 - [x] Docker compose for service dependencies (SQL Server, Redis, RabbitMQ)
 - [ ] Redis for caching
 - [x] EF Core persistence
-- [x] Editorconfig for ensuring code consistency
+  - [ ] Reverse engineer phoenix schema
+- [x] Code style rules to ensure consistency
+  - [x] Editorconfig
+  - [x] Format on commit
 - [x] Dockerfile for building docker image
 - [x] API problem details standard error handling response
 - [x] Health checks
 - [x] OpenTelemetry logs, metrics, traces
-  - [x] OpenTelemetry Prometheus metrics scraping endpoint
+  - [x] Prometheus metrics scraping endpoint
 - [ ] Integration tests for talking to the API
   - [ ] Ability to inspect messages
 - [ ] Authentication

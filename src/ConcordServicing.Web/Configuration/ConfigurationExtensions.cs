@@ -1,6 +1,8 @@
-﻿using ConcordServicing.Data;
+﻿using System.Text.Json;
+using ConcordServicing.Data;
 using Foundatio.Extensions.Hosting.Startup;
 using JasperFx.Core;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Oakton;
 using Oakton.Resources;
@@ -41,9 +43,11 @@ public static class ConfigurationExtensions
                 opts.PersistMessagesWithSqlServer(connectionString);
                 opts.UseEntityFrameworkCoreTransactions();
             }
-            
+
+            opts.Node.CodeGeneration.TypeLoadMode = JasperFx.CodeGeneration.TypeLoadMode.Auto;
+
             opts.Policies.UseDurableLocalQueues();
-            
+
             opts.Handlers.OnException<ApplicationException>()
                 .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
 
@@ -56,9 +60,9 @@ public static class ConfigurationExtensions
                  x.IncludeAssembly(typeof(Data.Handlers.CustomerHandler).Assembly);
              });
         });
-        
+
         builder.Host.UseResourceSetupOnStartup();
-        
+
         return builder;
     }
 
@@ -66,7 +70,7 @@ public static class ConfigurationExtensions
     {
         var connectionString = builder.Configuration.GetConnectionString("SqlServer");
         var isDevelopment = builder.Environment.IsDevelopment();
-        
+
         builder.Services.AddStartupAction("ConfigureDatabase", async sp =>
         {
             // ensure the database is created and any migrations applied
@@ -75,7 +79,7 @@ public static class ConfigurationExtensions
 
             if (!isDevelopment)
                 return;
-            
+
             // add some sample data if there is none
             var db = sp.GetRequiredService<ConcordDbContext>();
 
@@ -94,4 +98,29 @@ public static class ConfigurationExtensions
         return builder;
     }
 
+    public static void MapHealthChecksWithJsonResponse(this IEndpointRouteBuilder endpoints, PathString path)
+    {
+        var options = new HealthCheckOptions
+        {
+            ResponseWriter = async (httpContext, healthReport) =>
+            {
+                httpContext.Response.ContentType = "application/json";
+
+                var result = JsonSerializer.Serialize(new
+                {
+                    status = healthReport.Status.ToString(),
+                    totalDurationInSeconds = healthReport.TotalDuration.TotalSeconds,
+                    entries = healthReport.Entries.Select(e => new
+                    {
+                        key = e.Key,
+                        status = e.Value.Status.ToString(),
+                        description = e.Value.Description,
+                        data = e.Value.Data
+                    })
+                }, new JsonSerializerOptions { WriteIndented = true });
+                await httpContext.Response.WriteAsync(result);
+            }
+        };
+        endpoints.MapHealthChecks(path, options);
+    }
 }

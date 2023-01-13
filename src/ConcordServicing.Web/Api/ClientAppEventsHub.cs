@@ -15,12 +15,12 @@ public class ClientAppEventDispatcher
         _hub = hub;
     }
 
-    public Task DispatchMessage(object message)
+    public Task DispatchMessageAsync(object message)
     {
         return _hub.Clients.All.SendAsync("dispatch", new { type = message.GetType().FullName, body = message });
     }
 
-    public Task DispatchMessage(string type, object message)
+    public Task DispatchMessageAsync(string type, object message)
     {
         return _hub.Clients.All.SendAsync("dispatch", new { type = type, body = message });
     }

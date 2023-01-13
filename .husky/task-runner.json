@@ -1,0 +1,26 @@
+{
+   "tasks": [
+      {
+         "name": "dotnet-format",
+         "cwd": "service",
+         "command": "dotnet",
+         "args": [
+            "dotnet-format",
+            "--include",
+            "${staged}"
+         ],
+         "include": [
+            "**/*.cs"
+         ]
+      },
+      {
+         "name": "prettier",
+         "cwd": "client",
+         "command": "npm",
+         "args": [
+            "run",
+            "lint-staged"
+         ]
+      }
+   ]
+}

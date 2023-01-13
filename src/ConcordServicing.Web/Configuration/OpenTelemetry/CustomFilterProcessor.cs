@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Options;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Trace;
-using System.Diagnostics;
 
 namespace OpenTelemetry.Internal;
 
@@ -30,7 +30,8 @@ public static class CustomFilterProcessorExtensions
 
         if (builder is IDeferredTracerProviderBuilder deferredTracerProviderBuilder)
         {
-            return deferredTracerProviderBuilder.Configure((sp, builder) => {
+            return deferredTracerProviderBuilder.Configure((sp, builder) =>
+            {
                 var oltpOptions = sp.GetService<IOptions<FilteredOtlpExporterOptions>>()?.Value ?? new FilteredOtlpExporterOptions();
                 AddFilteredOtlpExporter(builder, oltpOptions, configure, sp);
             });

@@ -4,6 +4,7 @@ services:
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    command: /bin/bash ./entrypoint.sh
     ports:
       - 1434:1433 # login with sa:P@55w0rd
     environment:
@@ -11,7 +12,10 @@ services:
       - "SA_PASSWORD=P@55w0rd"
       - "MSSQL_PID=Developer"
     volumes:
-       - sqldata:/var/opt/mssql
+      - sqldata:/var/opt/mssql/data
+      - ./build/db/docker-entrypoint.sh:/entrypoint.sh
+      - ./build/db/docker-db-init.sh:/db-init.sh
+      - ./build/db/concord.sql:/db-init.sql
 
   rabbitmq:
     image: rabbitmq:3.10-management

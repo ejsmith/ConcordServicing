@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+## restore recently stashed files
+##git cherry-pick -n -m1 -Xtheirs stash
+##git reset

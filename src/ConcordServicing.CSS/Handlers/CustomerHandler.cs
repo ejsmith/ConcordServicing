@@ -8,10 +8,10 @@ public class CustomerHandler
     public static void Handle(UpdateCustomerAddress command, ILogger<CustomerHandler> logger)
     {
         logger.LogInformation("Calling CSS to update customer {CustomerId}", command.Id);
-        
+
         // CSS is an external system and is the source of truth for any data writes while we are migrating all of the apps over to SQL Server
         // We are dual-writing to both systems during transition
-        
+
         // call the CSS action first, if it fails, it will not update SQL Server
         // this can use retry policies to handle transient errors
         // this entire CSS project will eventually just be deleted when we get everything migrated to SQL Server

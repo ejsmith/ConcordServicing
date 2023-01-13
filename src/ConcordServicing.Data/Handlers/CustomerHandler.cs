@@ -1,7 +1,7 @@
-﻿using Wolverine.Attributes;
-using ConcordServicing.Data.Messages;
-using Wolverine;
+﻿using ConcordServicing.Data.Messages;
 using Microsoft.Extensions.Logging;
+using Wolverine;
+using Wolverine.Attributes;
 
 namespace ConcordServicing.Data.Handlers;
 
@@ -15,7 +15,7 @@ public class CustomerHandler
     }
 
     // nice thing about these handlers is that they are very easy to test
-    public async Task<Customer> Handle(GetCustomer command, ConcordDbContext db)
+    public async Task<Customer> HandleAsync(GetCustomer command, ConcordDbContext db)
     {
         _logger.LogInformation("Getting customer address {CustomerId}", command.Id);
 
@@ -32,7 +32,7 @@ public class CustomerHandler
 
     // transactional means that it will only send the customer updated message if the SQL Server update succeeds
     //[Transactional]
-    public async Task<Customer> Handle(UpdateCustomerAddress command, ConcordDbContext db, IMessageContext context)
+    public async Task<Customer> HandleAsync(UpdateCustomerAddress command, ConcordDbContext db, IMessageContext context)
     {
         _logger.LogInformation("Updating customer address in SQL {CustomerId}", command.Id);
 

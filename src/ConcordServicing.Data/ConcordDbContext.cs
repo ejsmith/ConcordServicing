@@ -8,7 +8,7 @@ public class ConcordDbContext : DbContext
     public ConcordDbContext(DbContextOptions<ConcordDbContext> options) : base(options)
     {
     }
-    
+
     public DbSet<Customer> Customers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
