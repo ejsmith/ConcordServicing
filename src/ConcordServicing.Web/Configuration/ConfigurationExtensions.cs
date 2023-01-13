@@ -66,17 +66,13 @@ public static class ConfigurationExtensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddConfigureDatabaseStartupAction(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddCreateSampleDataStartupAction(this WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("SqlServer");
         var isDevelopment = builder.Environment.IsDevelopment();
 
         builder.Services.AddStartupAction("ConfigureDatabase", async sp =>
         {
-            // ensure the database is created and any migrations applied
-            if (connectionString != null && isDevelopment)
-                await sp.GetRequiredService<ConcordDbContext>().Database.MigrateAsync();
-
             if (!isDevelopment)
                 return;
 

@@ -10,7 +10,7 @@ internal class StringBuilderPool
     internal static StringBuilderPool Instance = new StringBuilderPool();
 
     private protected readonly ObjectWrapper[] items;
-    private protected StringBuilder firstItem;
+    private protected StringBuilder? firstItem;
 
     public StringBuilderPool()
         : this(Environment.ProcessorCount * 2)
@@ -33,10 +33,10 @@ internal class StringBuilderPool
         if (item == null || Interlocked.CompareExchange(ref this.firstItem, null, item) != item)
         {
             var items = this.items;
-            for (var i = 0; i < items.Length; i++)
+            for (var i = 0; i < items!.Length; i++)
             {
                 item = items[i].Element;
-                if (item != null && Interlocked.CompareExchange(ref items[i].Element, null, item) == item)
+                if (item != null && items != null && items[i].Element != null && Interlocked.CompareExchange(ref items[i].Element!, null, item) == item)
                 {
                     return item;
                 }

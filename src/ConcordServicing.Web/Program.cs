@@ -17,9 +17,13 @@ builder.Services.AddHealthChecks().AddDbContextCheck<ConcordDbContext>(); ;
 builder.UseConcordWolverine();
 builder.AddConcordDbContext();
 builder.AddOpenTelemetry();
-builder.AddConfigureDatabaseStartupAction();
+builder.AddCreateSampleDataStartupAction();
 
 var app = builder.Build();
+
+// ensure the database is created
+if (app.Environment.IsDevelopment())
+    await app.Services.GetRequiredService<ConcordDbContext>().Database.EnsureCreatedAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI(o => o.InjectStylesheet("/swagger/docs.css"));

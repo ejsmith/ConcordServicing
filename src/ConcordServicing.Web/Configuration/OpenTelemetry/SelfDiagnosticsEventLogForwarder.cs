@@ -87,7 +87,7 @@ internal class SelfDiagnosticsEventLogForwarder : EventListener
         };
     }
 
-    private static string FormatMessage(EventSourceEvent eventSourceEvent, Exception exception)
+    private static string FormatMessage(EventSourceEvent eventSourceEvent, Exception? exception)
     {
         return EventSourceEventFormatter.Format(eventSourceEvent.EventData);
     }
@@ -133,7 +133,7 @@ internal class SelfDiagnosticsEventLogForwarder : EventListener
         }
     }
 
-    private readonly struct EventSourceEvent : IReadOnlyList<KeyValuePair<string, object>>
+    private readonly struct EventSourceEvent : IReadOnlyList<KeyValuePair<string, object?>>
     {
         public EventSourceEvent(EventWrittenEventArgs eventData)
         {
@@ -142,15 +142,16 @@ internal class SelfDiagnosticsEventLogForwarder : EventListener
 
         public EventWrittenEventArgs EventData { get; }
 
-        public int Count => this.EventData.PayloadNames.Count;
+        public int Count => this.EventData.PayloadNames?.Count ?? 0;
 
-        public KeyValuePair<string, object> this[int index] => new KeyValuePair<string, object>(this.EventData.PayloadNames[index], this.EventData.Payload[index]);
+        public KeyValuePair<string, object?> this[int index] => this.EventData.PayloadNames != null ? new(this.EventData.PayloadNames[index], this.EventData.Payload?[index]) : throw new IndexOutOfRangeException();
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
         {
             for (int i = 0; i < this.Count; i++)
             {
-                yield return new KeyValuePair<string, object>(this.EventData.PayloadNames[i], this.EventData.Payload[i]);
+                if (this.EventData.PayloadNames != null && this.EventData.Payload != null)
+                    yield return new KeyValuePair<string, object?>(this.EventData.PayloadNames[i], this.EventData.Payload[i]);
             }
         }
 

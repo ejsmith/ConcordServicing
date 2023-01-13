@@ -13,8 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcordServicing.Tests", "t
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9B645F3-D158-47D6-94C6-453F1991234F}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		api.http = api.http
-		src\Directory.Build.props = src\Directory.Build.props
+		Concord.ruleset = Concord.ruleset
+		Directory.Build.props = Directory.Build.props
 		docker-compose.yml = docker-compose.yml
 		README.md = README.md
 	EndProjectSection

@@ -10,8 +10,8 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <WarningsAsErrors>true</WarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591;NU1608</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>latest</LangVersion>
 
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>

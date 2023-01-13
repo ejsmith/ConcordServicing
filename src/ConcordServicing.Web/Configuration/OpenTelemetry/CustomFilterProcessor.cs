@@ -7,9 +7,9 @@ namespace OpenTelemetry.Internal;
 
 public sealed class CustomFilterProcessor : CompositeProcessor<Activity>
 {
-    private readonly Func<Activity, bool> _filter;
+    private readonly Func<Activity, bool>? _filter;
 
-    public CustomFilterProcessor(BaseProcessor<Activity> processor, Func<Activity, bool> filter) : base(new[] { processor })
+    public CustomFilterProcessor(BaseProcessor<Activity> processor, Func<Activity, bool>? filter) : base(new[] { processor })
     {
         _filter = filter;
     }
@@ -23,7 +23,7 @@ public sealed class CustomFilterProcessor : CompositeProcessor<Activity>
 
 public static class CustomFilterProcessorExtensions
 {
-    public static TracerProviderBuilder AddFilteredOtlpExporter(this TracerProviderBuilder builder, Action<FilteredOtlpExporterOptions> configure = null)
+    public static TracerProviderBuilder AddFilteredOtlpExporter(this TracerProviderBuilder builder, Action<FilteredOtlpExporterOptions>? configure = null)
     {
         if (builder == null)
             throw new ArgumentNullException(nameof(builder));
@@ -43,9 +43,9 @@ public static class CustomFilterProcessorExtensions
     internal static TracerProviderBuilder AddFilteredOtlpExporter(
         TracerProviderBuilder builder,
         FilteredOtlpExporterOptions exporterOptions,
-        Action<FilteredOtlpExporterOptions> configure,
-        IServiceProvider serviceProvider,
-        Func<BaseExporter<Activity>, BaseExporter<Activity>> configureExporterInstance = null)
+        Action<FilteredOtlpExporterOptions>? configure,
+        IServiceProvider? serviceProvider,
+        Func<BaseExporter<Activity>, BaseExporter<Activity>>? configureExporterInstance = null)
     {
 
         configure?.Invoke(exporterOptions);
@@ -74,18 +74,18 @@ public static class CustomFilterProcessorExtensions
         }
     }
 
-    public static void TryEnableIHttpClientFactoryIntegration(this OtlpExporterOptions options, IServiceProvider serviceProvider, string httpClientName)
+    public static void TryEnableIHttpClientFactoryIntegration(this OtlpExporterOptions options, IServiceProvider? serviceProvider, string httpClientName)
     {
         // use reflection to call the method
 
         var exporterExtensionsType = typeof(OtlpExporterOptions).Assembly.GetType("OpenTelemetry.Exporter.OtlpExporterOptionsExtensions");
-        exporterExtensionsType
-            .GetMethod("TryEnableIHttpClientFactoryIntegration")
-            .Invoke(null, new object[] { options, serviceProvider, httpClientName });
+        exporterExtensionsType?
+            .GetMethod("TryEnableIHttpClientFactoryIntegration")?
+            .Invoke(null, new object?[] { options, serviceProvider, httpClientName });
     }
 }
 
 public class FilteredOtlpExporterOptions : OtlpExporterOptions
 {
-    public Func<Activity, bool> Filter { get; set; }
+    public Func<Activity, bool>? Filter { get; set; }
 }

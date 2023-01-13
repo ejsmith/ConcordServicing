@@ -12,7 +12,7 @@ services:
       - "SA_PASSWORD=P@55w0rd"
       - "MSSQL_PID=Developer"
     volumes:
-      - sqldata:/var/opt/mssql/data
+      - sqldata:/var/opt/mssql
       - ./build/db/docker-entrypoint.sh:/entrypoint.sh
       - ./build/db/docker-db-init.sh:/db-init.sh
       - ./build/db/concord.sql:/db-init.sql
